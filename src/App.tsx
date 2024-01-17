@@ -1,7 +1,12 @@
 import React from "react";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-  return <div className='text-blue-500'>hello world</div>;
+  return (
+    <div className=''>
+      <LoginPage />
+    </div>
+  );
 }
 
 export default App;
