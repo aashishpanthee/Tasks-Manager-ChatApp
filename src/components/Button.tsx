@@ -5,7 +5,7 @@ type ButtonProps = {
   text: string;
   className?: string;
   secondary?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   loading?: boolean;
 };
 
