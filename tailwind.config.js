@@ -20,6 +20,10 @@ module.exports = {
         myBlue: "#0A32B3",
         myPink: "#BD3650",
       },
+      backgroundImage: {
+        pattern:
+          "url('https://cdn.pixabay.com/photo/2022/01/28/18/32/leaves-6975462_1280.png')",
+      },
     },
   },
   plugins: [],
