@@ -14,6 +14,8 @@ const catchErr = (err: { code?: string }) => {
   else if (code === "auth/invalid-id-token") toastError("Invalid token");
   else if (code === "auth/id-token-expired")
     toastError("Token expired !! Login again");
+  else if (code === "auth/invalid-credential")
+    toastError("Invalid Credentials");
   else toastError("Something went wrong");
   console.log(err);
 };
