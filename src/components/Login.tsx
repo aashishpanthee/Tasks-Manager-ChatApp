@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
-import { BE_signUp } from "../Backend/Queries";
+import { BE_signIn, BE_signUp } from "../Backend/Queries";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
@@ -9,11 +9,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
 
   const handleSignIn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const data = { email, password };
-    console.log(data, "Form Details");
+    BE_signIn(data, setSignInLoading, reset);
   };
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -62,7 +63,11 @@ const Login = () => {
         )}
         {login ? (
           <>
-            <Button text='Login' onClick={handleSignIn} />
+            <Button
+              text='Login'
+              onClick={handleSignIn}
+              loading={signInLoading}
+            />
             <Button text='Register' secondary onClick={() => setLogin(false)} />
           </>
         ) : (

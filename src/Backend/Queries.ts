@@ -1,38 +1,56 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "./Firebase";
 import { toastError } from "../utils/toast";
 import catchErr from "../utils/catchErr";
-import { setLoadingType } from "../Types";
+import { authDataType, setLoadingType } from "../Types";
 
 export const BE_signUp = (
-  data: {
-    email: string;
-    password: string;
-    confirmPassword: string;
-  },
-  setSignUpLoading: setLoadingType,
+  data: authDataType,
+  setLoading: setLoadingType,
   reset: () => void
 ) => {
   const { email, password, confirmPassword } = data;
-  setSignUpLoading(true);
+  setLoading(true);
   if (email && password) {
     if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
         .then(({ user }) => {
           console.log(user);
-          setSignUpLoading(false);
+          setLoading(false);
           reset();
         })
         .catch((error) => {
           catchErr(error);
-          setSignUpLoading(false);
+          setLoading(false);
         });
     } else {
       toastError("Passwords must match");
-      setSignUpLoading(false);
+      setLoading(false);
     }
   } else {
     toastError("Field's can't be empty");
-    setSignUpLoading(false);
+    setLoading(false);
   }
+};
+
+export const BE_signIn = (
+  data: authDataType,
+  setLoading: setLoadingType,
+  reset: () => void
+) => {
+  const { email, password } = data;
+  setLoading(true);
+  signInWithEmailAndPassword(auth, email, password)
+    .then(({ user }) => {
+      console.log(user);
+      setLoading(false);
+      reset();
+    })
+    .catch((err: any) => {
+      catchErr(err);
+      setLoading(false);
+    });
 };
