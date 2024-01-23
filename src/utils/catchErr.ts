@@ -16,6 +16,7 @@ const catchErr = (err: { code?: string }) => {
     toastError("Token expired !! Login again");
   else if (code === "auth/invalid-credential")
     toastError("Invalid Credentials");
+  else if (code === "unavailable") toastError("Firebase client is offline");
   else toastError("Something went wrong");
   console.log(err);
 };
