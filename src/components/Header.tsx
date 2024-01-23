@@ -1,7 +1,10 @@
 import React from "react";
-import Button from "./Button";
+import AddListBoard from "./AddListBoard";
+import Icon from "./Icon";
+import { BsChatFill } from "react-icons/bs";
+import { FiList } from "react-icons/fi";
+import UserHeaderProfile from "./UserHeaderProfile";
 const logo = require("../assets/logo.webp");
-
 type Props = {};
 
 const Header = (props: Props) => {
@@ -12,8 +15,11 @@ const Header = (props: Props) => {
         alt='logo'
         className='w-[70px] drop-shadow-md cursor-pointer'
       />
-      <div className='flex'>
-        <Button text='Add New ListBoard' secondary />
+      <div className='flex flex-row-reverse items-center justify-center gap-5 md:flex-row flexwrap'>
+        <AddListBoard />
+        <Icon IconName={BsChatFill} ping={true} />
+        <Icon IconName={FiList} />
+        <UserHeaderProfile />
       </div>
     </div>
   );
