@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { BE_signIn, BE_signUp } from "../Backend/Queries";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
@@ -10,17 +11,18 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpLoading, setSignUpLoading] = useState(false);
   const [signInLoading, setSignInLoading] = useState(false);
+  const routeTo = useNavigate();
 
   const handleSignIn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const data = { email, password };
-    BE_signIn(data, setSignInLoading, reset);
+    BE_signIn(data, setSignInLoading, reset, routeTo);
   };
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const data = { email, password, confirmPassword };
-    BE_signUp(data, setSignUpLoading, reset);
+    BE_signUp(data, setSignUpLoading, reset, routeTo);
   };
 
   const reset = () => {

@@ -6,11 +6,13 @@ import { auth } from "./Firebase";
 import { toastError } from "../utils/toast";
 import catchErr from "../utils/catchErr";
 import { authDataType, setLoadingType } from "../Types";
+import { NavigateFunction } from "react-router-dom";
 
 export const BE_signUp = (
   data: authDataType,
   setLoading: setLoadingType,
-  reset: () => void
+  reset: () => void,
+  routeTo: NavigateFunction
 ) => {
   const { email, password, confirmPassword } = data;
   setLoading(true);
@@ -21,6 +23,7 @@ export const BE_signUp = (
           console.log(user);
           setLoading(false);
           reset();
+          routeTo("/dashboard");
         })
         .catch((error) => {
           catchErr(error);
@@ -39,7 +42,8 @@ export const BE_signUp = (
 export const BE_signIn = (
   data: authDataType,
   setLoading: setLoadingType,
-  reset: () => void
+  reset: () => void,
+  routeTo: NavigateFunction
 ) => {
   const { email, password } = data;
   setLoading(true);
@@ -48,6 +52,7 @@ export const BE_signIn = (
       console.log(user);
       setLoading(false);
       reset();
+      routeTo("/dashboard");
     })
     .catch((err: any) => {
       catchErr(err);
