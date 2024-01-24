@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddListBoard from "./AddListBoard";
 import Icon from "./Icon";
 import { BsChatFill } from "react-icons/bs";
@@ -8,7 +8,8 @@ import Spinner from "./Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useNavigate } from "react-router-dom";
-import { BE_signOut } from "../Backend/Queries";
+import { BE_signOut, getStorageUser } from "../Backend/Queries";
+import { setUser } from "../redux/userSlice";
 const logo = require("../assets/logo.webp");
 type Props = {};
 
@@ -17,6 +18,16 @@ const Header = (props: Props) => {
   const dispatch = useDispatch();
   const routeTo = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.user);
+
+  const usr = getStorageUser();
+
+  useEffect(() => {
+    if (usr?.id) {
+      dispatch(setUser(usr));
+    } else {
+      routeTo("/auth");
+    }
+  }, []);
 
   const handleGoToPage = (page: string) => {
     routeTo("/dashboard/" + page);
