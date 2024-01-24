@@ -169,7 +169,7 @@ export const updateUserInfo = async ({
 };
 
 // get user from local storage
-const getStorageUser = () => {
+export const getStorageUser = () => {
   const usr = localStorage.getItem("user");
   if (usr) return JSON.parse(usr);
   else return null;
@@ -195,6 +195,9 @@ export const BE_signOut = (
 
       // remove from local storage
       localStorage.removeItem("user");
+
+      // remove current page from local storage
+      localStorage.removeItem("user-page");
 
       // route to login page
       routeTo("/auth");
