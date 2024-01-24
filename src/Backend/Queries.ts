@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "./Firebase";
 import {
@@ -29,6 +30,7 @@ enum Collections {
   MESSAGESCOLL = "messages",
 }
 
+// sign up a user
 export const BE_signUp = (
   data: authDataType,
   setLoading: setLoadingType,
@@ -66,6 +68,7 @@ export const BE_signUp = (
   }
 };
 
+// sign in a user
 export const BE_signIn = (
   data: authDataType,
   setLoading: setLoadingType,
@@ -93,6 +96,7 @@ export const BE_signIn = (
     });
 };
 
+// add user to collection
 export const addUserToCollection = async (
   id: string,
   email: string,
@@ -111,6 +115,7 @@ export const addUserToCollection = async (
   return getUserInfo(id);
 };
 
+// get user information
 const getUserInfo = async (id: string): Promise<userType> => {
   const userRef = doc(db, Collections.USERSCOLL, id);
   const user = await getDoc(userRef);
@@ -135,6 +140,7 @@ const getUserInfo = async (id: string): Promise<userType> => {
   }
 };
 
+// update user information
 export const updateUserInfo = async ({
   id,
   username,
@@ -162,8 +168,44 @@ export const updateUserInfo = async ({
   }
 };
 
+// get user from local storage
 const getStorageUser = () => {
   const usr = localStorage.getItem("user");
   if (usr) return JSON.parse(usr);
   else return null;
+};
+
+// sign out
+export const BE_signOut = (
+  dispatch: AppDispatch,
+  routeTo: NavigateFunction,
+  setLogoutLoading: setLoadingType
+) => {
+  // setting logoutloading state for spinner in logout dropdown
+  setLogoutLoading(true);
+
+  // logout in firebase
+  signOut(auth)
+    .then(async () => {
+      // set user offline
+      await updateUserInfo({ isOffline: true });
+
+      //  set current  user to empty/defaultuser
+      dispatch(setUser(defaultUser));
+
+      // remove from local storage
+      localStorage.removeItem("user");
+
+      // route to login page
+      routeTo("/auth");
+
+      // setting logout loading state to false after successfull logout
+      setLogoutLoading(false);
+    })
+    .catch((err) => {
+      catchErr(err);
+
+      // setting logout loading state to false after unsuccessfull logout
+      setLogoutLoading(false);
+    });
 };
